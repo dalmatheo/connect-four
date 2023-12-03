@@ -1,15 +1,28 @@
-grille = [
-    [" ", " ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " ", " "],
+grid = [
+        [" ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " "],
 ]
 
-RED = "r"
-YELLOW = "y"
+def resetGrid():
+        """
+        Reset the grid to its original 7*6 form without colors.
 
+        Returns:
+            list: Returns the colors.
+        """
+        global grid
+        grid = [
+            [" ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " "],
+        ]
 
 def getTeams():
     """
@@ -18,7 +31,19 @@ def getTeams():
     Returns:
         list: Returns the colors.
     """
-    return [RED, YELLOW]
+    return ['r', 'y']
+
+def getTeam(index):
+    """
+    Returns the specified team.
+
+    Argument:
+        index (number): The index of the desired team.
+
+    Returns:
+        string: Returns the desired team.
+    """
+    return getTeams()[index]
 
 
 def getLines():
@@ -29,7 +54,7 @@ def getLines():
         list: Returns a list containing all lines.
     """
     lines = []
-    for line in grille:
+    for line in grid:
         lines.append(line)
     lines.reverse()
     return lines
@@ -37,7 +62,7 @@ def getLines():
 
 def getLine(index):
     """
-    Return the specified line.
+    Returns the specified line.
 
     Argument:
         index (number): The index of the desired line.
@@ -56,7 +81,7 @@ def getCollumns():
         list: Returns a list containing all collumns.
     """
     collones = [[], [], [], [], [], [], []]
-    for line in grille:
+    for line in grid:
         for i in range(len(line)):
             collones[i].append(line[i])
     return collones
@@ -64,34 +89,34 @@ def getCollumns():
 
 def getCollumn(index):
     """
-    Return the specified collumn.
+    Returns the specified collumn.
 
     Argument:
-        index (number): The index of the desired line.
+        index (number): The index of the desired collumn.
 
     Returns:
-        list: Returns the desired line.
+        list: Returns the desired collumn.
     """
     return getCollumns()[index]
 
 
 def placeColor(color, n):
     """
-    Place.
+    Place the 'color' at the 'n' collumn
 
     Argument:
         color (string): The color that will be placed.
         n (number): The collumn in which the color should be placed.
     """
-    for line in getLines():
+    for line in grid:
         if line[n] == " ":
             line[n] = color
-            break
+            return True
 
 
 def checkWin(color):
     """
-    Check if the specified color won.
+    Check if the 'color' won.
 
     Argument:
         color (string): The color that might've won.
@@ -120,7 +145,7 @@ def checkWin(color):
                     break
             else:
                 suite = 0
-    for line_number in range(len(grille)):
+    for line_number in range(len(grid)):
         for case_number in range(len(getLine(line_number))):
             suite = 0
             for n in range(4):
