@@ -7,6 +7,8 @@ grid = [
         [" ", " ", " ", " ", " ", " ", " "],
 ]
 
+teams = ['red', 'yellow']
+
 def resetGrid():
         """
         Reset the grid to its original 7*6 form without colors.
@@ -31,7 +33,7 @@ def getTeams():
     Returns:
         list: Returns the colors.
     """
-    return ['r', 'y']
+    return teams
 
 def getTeam(index):
     """
@@ -45,6 +47,9 @@ def getTeam(index):
     """
     return getTeams()[index]
 
+
+def setTeam(index, color):
+    teams[index] = color
 
 def getLines():
     """
