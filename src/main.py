@@ -46,25 +46,22 @@ def stop():
 
 
 # Function to translate a color -> might be removed later
-def translateColor(color):
-    if color == "red":
-        return "rouge"
-    if color == "yellow":
-        return "jaune"
-    if color == "blue":
-        return "bleu"
-    if color == "purple":
-        return "violet"
-    if color == "orange":
-        return "orange"
-    if color == "green":
-        return "vert"
-    if color == "black":
-        return "noir"
-    if color == "gray":
-        return "gris"
-    if color == "pink":
-        return "rose"
+def translateColor(couleur, lang):
+    colors = {
+        "red": "rouge",
+        "yellow": "jaune",
+        "blue": "blue",
+        "purple": "violet",
+        "orange": "orange",
+        "green": "vert",
+        "black": "noir",
+        "gray": "gris",
+        "pink": "rose",
+    }
+    if lang:
+        return colors.get(couleur)
+    else:
+        return colors.fromkeys(couleur)
 
 
 # Function to create a canva -> might be removed later
@@ -267,22 +264,19 @@ def setColorChecker(team, couleur, label):
         "yellow",
         "red",
     ]
-    flag = False
-    if team == 1:
-        for color in colors:
-            if translateColor(color) == couleur:
-                setTeam(0, color)
-                teamWins()
-                label.configure(text=f"La couleur {couleur} est valide.")
-                return
-    else:
-        for color in colors:
-            if translateColor(color) == couleur:
-                setTeam(1, color)
-                teamWins()
-                label.configure(text=f"La couleur {couleur} est valide.")
-                return
+    if colors.count(translateColor(couleur, False)) == 0:
         label.configure(text=f"La couleur {couleur} n'est pas valide.")
+        return
+    for teams in getTeams():
+        if teams == couleur:
+            label.configure(text=f"La couleur {couleur} est déjà utilisée.")
+            return
+    for color in colors:
+        if translateColor(color) == couleur:
+            setTeam(team, color)
+            teamWins()
+            label.configure(text=f"La couleur {couleur} est valide.")
+            return
 
 
 # Function to open the menu to set the checkers color.
@@ -303,7 +297,7 @@ def checkerColorSettings(menu):
         text="Appliquer la couleur du pion 1",
         font=("Arial", 14),
         fg="black",
-        command=lambda: setColorChecker(1, e1.get(), Label_error),
+        command=lambda: setColorChecker(0, e1.get(), Label_error),
     )
     Button_apply_settings_checker1.place(anchor="center", relx=0.35, rely=0.55)
     Button_apply_settings_checker1 = tk.Button(
@@ -311,7 +305,7 @@ def checkerColorSettings(menu):
         text="Appliquer la couleur du pion 2",
         font=("Arial", 14),
         fg="black",
-        command=lambda: setColorChecker(2, e1.get(), Label_error),
+        command=lambda: setColorChecker(1, e1.get(), Label_error),
     )
     Button_apply_settings_checker1.place(anchor="center", relx=0.65, rely=0.55)
     tk.Button(
